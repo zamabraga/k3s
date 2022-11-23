@@ -7,42 +7,45 @@ resource "azurerm_network_interface" "main" {
     name                          = "${var.prefix}-nic-config"
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.main.id
   }
+
 }
 
-resource "azurerm_virtual_machine" "main" {
-  name                  = var.prefix
-  location              = var.location
-  resource_group_name   = var.resource_group_name
-  network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size               = "Standard_DS1_v2"
+resource "azurerm_public_ip" "main" {
+  name                = "${var.prefix}-ip"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+  domain_name_label   = var.prefix
+}
 
-  delete_os_disk_on_termination = true
+resource "azurerm_linux_virtual_machine" "main" {
+  name                            = var.prefix
+  location                        = var.location
+  resource_group_name             = var.resource_group_name
+  network_interface_ids           = [azurerm_network_interface.main.id]
+  size                            = var.vm_size
+  admin_username                  = var.admin_username
+  admin_password                  = var.admin_password
+  disable_password_authentication = false
+  computer_name                   = var.prefix
+  priority                        = "Spot"
+  eviction_policy                 = "Deallocate"
 
-  delete_data_disks_on_termination = true
-
-  storage_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "16.04-LTS"
+  source_image_reference {
+    publisher = "debian"
+    offer     = "debian-11"
+    sku       = "11"
     version   = "latest"
   }
 
-  storage_os_disk {
-    name              = "myosdisk1"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-  }
+  os_disk {
+    name                 = "os-${var.prefix}-disk"
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+    disk_size_gb         = "50"
 
-  os_profile {
-    computer_name  = var.prefix
-    admin_username = var.admin_username
-    admin_password = var.admin_password
-  }
-
-  os_profile_linux_config {
-    disable_password_authentication = false
   }
 
 }

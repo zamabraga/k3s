@@ -22,9 +22,9 @@ locals {
 }
 
 module "vm" {
-  source              = "./modules/vm"
-  
-  for_each             = toset(local.vms)
+  source = "./modules/vm"
+
+  for_each            = toset(local.vms)
   prefix              = each.value
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
