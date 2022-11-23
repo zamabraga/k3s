@@ -16,7 +16,7 @@
       shell: k3s -v
       register: k3s_check
     - name: Install k3s Server
-      shell: curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644  
+      shell: curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --node-external-ip 20.231.0.65 
       when: k3s_check.stdout.find('command not found') != -1             
       args:
         warn: no
