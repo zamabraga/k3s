@@ -26,6 +26,16 @@ Project to configurate k3s cluster using terraform and ansible
 
 ![Single Server](./docs/assets/images/single-server-architecture-k3s.png)
 
+## Quick-Start Guide
+
+### Azure provisioning
+
+```bash
+
+cd ./azure
+terraform apply --auto-approve
+
+```
 ## Docs
 
 https://docs.k3s.io/
