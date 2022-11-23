@@ -1,0 +1,29 @@
+- name: Install k3s Server
+  hosts: server
+  become: true
+  gather_facts: false     
+  tasks: 
+    - name: Update apt repo and cache
+      apt:
+        update_cache: yes
+        force_apt_get: yes
+        cache_valid_time: 3600    
+    - name: Upgrade all packages on servers
+      apt:
+        upgrade: dist
+        force_apt_get: yes        
+    - name: k3s was installed
+      shell: k3s -v
+      register: k3s_check
+    - name: Install k3s Server
+      shell: curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644  
+      when: k3s_check.stdout.find('command not found') != -1             
+      args:
+        warn: no
+    - name: Download file into /etc/rancher/k3s/k3s.yaml
+      ansible.builtin.fetch:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: /mnt/g/repos/github-zamabraga/k3s/k3s/
+        flat: yes
+      
+        

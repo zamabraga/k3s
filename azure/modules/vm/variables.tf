@@ -7,7 +7,7 @@ variable "resource_group_name" {
 }
 
 variable "vm_size" {
-  default = "Standard_D2S_v3"
+  default = "Standard_D2s_v3"
 }
 
 variable "location" {
