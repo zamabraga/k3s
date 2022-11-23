@@ -23,7 +23,7 @@
     - name: Download file into /etc/rancher/k3s/k3s.yaml
       ansible.builtin.fetch:
         src: /etc/rancher/k3s/k3s.yaml
-        dest: /mnt/g/repos/github-zamabraga/k3s/k3s/
+        dest: /etc/rancher/k3s/
         flat: yes
       
         
