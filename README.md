@@ -90,7 +90,7 @@ curl http://corvo.eastus.cloudapp.azure.com/whoami
 
 ## Tips
 
-### Export base-64 from notepad++
+### Export base-64 from notepad++ to github secrets
 
 ![Export Base 64](./docs/assets/images/export_file_to_base64_notepad_plus_plus.png)
 
