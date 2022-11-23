@@ -79,6 +79,15 @@ terraform apply --auto-approve
 
 ```
 
+## Tests
+
+```bash
+curl http://127.0.0.1/whoami
+curl http://[PUBLIC ID]/whoami
+curl http://corvo.eastus.cloudapp.azure.com/whoami
+
+```
+
 ## Tips
 
 ### Export base-64 from notepad++
@@ -96,3 +105,7 @@ https://thenewstack.io/how-rancher-labs-k3s-makes-it-easy-to-run-kubernetes-at-t
 https://mattermost.com/blog/intro-to-k3s-lightweight-kubernetes/
 
 https://github.com/actions-hub/kubectl
+
+https://www.ivankrizsan.se/2020/10/31/hot-ingress-in-the-k3s-cluster/
+
+https://www.rancher.co.jp/docs/k3s/latest/en/running/
