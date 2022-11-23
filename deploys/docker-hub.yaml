@@ -2,57 +2,50 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-rest-golang-deployment
   namespace: k3s-project-dev
+  name: whoami
+  labels:
+    app: whoami
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: simple-rest-golang
+      app: whoami
   template:
     metadata:
       labels:
-        app: simple-rest-golang
+        app: whoami
     spec:
       containers:
-        - name: simple-rest-golang
-          image: fransafu/simple-rest-golang:1.0.0
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "100m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+        - name: whoami
+          image: traefik/whoami
           ports:
-            - containerPort: 8080
-          imagePullPolicy: Always
+            - name: web
+              containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: simple-rest-golang-service
+  name: whoami
   namespace: k3s-project-dev
 spec:
   ports:
     - port: 80
-      targetPort: 8080
-      name: tcp
+      targetPort: web
   selector:
-    app: simple-rest-golang
+    app: whoami
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: simple-rest-golang-ingress
+  name: simpleingressroute
   namespace: k3s-project-dev
-  annotations:
-    kubernetes.io/ingress.class: "traefik"
 spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            backend:
-              serviceName: simple-rest-golang-service
-              servicePort: 80
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/whoami`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
