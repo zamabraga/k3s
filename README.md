@@ -79,6 +79,12 @@ terraform apply --auto-approve
 
 ```
 
+## Tips
+
+### Export base-64 from notepad++
+
+![Export Base 64](./docs/assets/images/export_file_to_base64_notepad_plus_plus.png)
+
 ## Docs
 
 https://docs.k3s.io/
@@ -88,3 +94,5 @@ https://docs.k3s.io/installation/requirements
 https://thenewstack.io/how-rancher-labs-k3s-makes-it-easy-to-run-kubernetes-at-the-edge/
 
 https://mattermost.com/blog/intro-to-k3s-lightweight-kubernetes/
+
+https://github.com/actions-hub/kubectl
