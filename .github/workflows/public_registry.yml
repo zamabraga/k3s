@@ -1,0 +1,17 @@
+name: Deploy API From Docker Hub
+
+
+on: 
+  workflow_dispatch:
+
+jobs:  
+  build:    
+    runs-on: ubuntu-latest   
+    steps:     
+      - uses: actions/checkout@v3     
+      - uses: actions-hub/kubectl@master
+        name: get pods
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: get pods
