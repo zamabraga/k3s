@@ -1,27 +1,13 @@
 resource "kubernetes_namespace" "main" {
   metadata {
     annotations = {
-      name = "main"
+      name = "k3s-project-dev"
     }
 
     labels = {
-      mylabel = "main"
+      mylabel = "k3s-project-dev"
     }
 
-    name = "main-nps"
-  }
-}
-
-resource "kubernetes_namespace" "itw" {
-  metadata {
-    annotations = {
-      name = "itw"
-    }
-
-    labels = {
-      mylabel = "itw"
-    }
-
-    name = "itw"
+    name = "k3s-project-dev"
   }
 }
