@@ -11,3 +11,18 @@ resource "kubernetes_namespace" "main" {
     name = "k3s-project-dev"
   }
 }
+
+
+resource "kubernetes_namespace" "postgresql" {
+  metadata {
+    annotations = {
+      name = "postgresql"
+    }
+
+    labels = {
+      mylabel = "postgresql"
+    }
+
+    name = "postgresql"
+  }
+}
