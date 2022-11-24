@@ -156,7 +156,7 @@ metadata:
   namespace: postgresql
 spec:
   entryPoints:
-    - other
+    - web
   routes:
     match: HostSNI(`*`)
     services:
