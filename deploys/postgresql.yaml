@@ -148,3 +148,17 @@ spec:
     - name: tcp-postgresql
       port: 5432
       protocol: TCP
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: postgresql-ingress
+  namespace: postgresql
+spec:
+  entryPoints:
+    - postgresql
+  routes:
+    match: HostSNI(`*`)
+    services:
+      - name: postgresql-svc
+        port: 5432
