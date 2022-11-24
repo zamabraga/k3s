@@ -2,22 +2,14 @@
   hosts: server
   become: true
   gather_facts: false     
-  tasks: 
-    - name: Update apt repo and cache
-      apt:
-        update_cache: yes
-        force_apt_get: yes
-        cache_valid_time: 3600    
-    - name: Upgrade all packages on servers
-      apt:
-        upgrade: dist
-        force_apt_get: yes        
+  tasks:             
     - name: k3s was installed
       shell: k3s -v
+      ignore_errors: true
       register: k3s_check
     - name: Install k3s Server
-      shell: curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --node-external-ip 20.231.0.65 
-      when: k3s_check.stdout.find('command not found') != -1             
+      shell: curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --node-external-ip 13.90.29.125 
+      when: k3s_check is failed
       args:
         warn: no
     - name: Download file into /etc/rancher/k3s/k3s.yaml

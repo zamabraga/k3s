@@ -3,7 +3,7 @@ k3s:
     server:
       hosts:
         corvo:
-          ansible_host: 20.231.0.65
+          ansible_host: 13.90.29.125
           ansible_become_pass: "{{lookup('env','K3S_PASSWORD')}}"
           ansible_user: "{{lookup('env','K3S_USER')}}"
           ansible_password: "{{lookup('env','K3S_PASSWORD')}}"
