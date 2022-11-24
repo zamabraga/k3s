@@ -41,7 +41,7 @@ metadata:
   name: postgresql-password
   namespace: postgresql
 data:
-  POSTGRES_PASSWORD: q1w2e3
+  POSTGRES_PASSWORD: cTF3MmUzCg==
 ---
 apiVersion: v1
 kind: ConfigMap
