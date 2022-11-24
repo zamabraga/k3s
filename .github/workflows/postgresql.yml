@@ -1,0 +1,16 @@
+name: Deploy API From Docker Hub
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-hub/kubectl@master
+        name: publish
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: apply -f ./deploys/postgresql.yaml
