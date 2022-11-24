@@ -109,3 +109,15 @@ https://github.com/actions-hub/kubectl
 https://www.ivankrizsan.se/2020/10/31/hot-ingress-in-the-k3s-cluster/
 
 https://www.rancher.co.jp/docs/k3s/latest/en/running/
+
+### Postgresql
+
+https://www.techtalk7.com/postgresql-storage-on-k3s/
+
+https://wirywolf.com/2022/07/postgresql-ingress-using-traefik-kubernetes-k3s.html
+
+https://community.traefik.io/t/ingressroutetcp-not-possible-anymore/8472
+
+https://community.traefik.io/t/ingressroutetcp-in-kubernetes-for-headless-service/13726/2
+
+https://community.traefik.io/t/tcp-on-kubernetes/1528/21
