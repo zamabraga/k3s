@@ -1,3 +1,13 @@
+resource "azurecaf_name" "main" {
+  name           = "k3s"
+  resource_types = ["azurerm_container_registry"]
+  prefixes       = ["a", "b", "c"]
+  suffixes       = ["w", "y", "z"]
+  random_length  = 5
+  clean_input    = true
+}
+
+
 resource "azurerm_resource_group" "main" {
   name     = "rg-k3s-test"
   location = "eastus"
@@ -5,7 +15,7 @@ resource "azurerm_resource_group" "main" {
 
 
 resource "azurerm_container_registry" "main" {
-  name                = "k3sacr"
+  name                = azurecaf_name.main.results["azurerm_container_registry"]
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   sku                 = "Basic"
