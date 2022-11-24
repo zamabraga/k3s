@@ -1,4 +1,4 @@
-name: Deploy API From Docker Hub
+name: Deploy Portgresql
 
 on:
   workflow_dispatch:
