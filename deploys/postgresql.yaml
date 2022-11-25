@@ -149,16 +149,131 @@ spec:
       port: 5432
       protocol: TCP
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRouteTCP
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
-  name: postgresql-ingress
+  name: pgadmin-storage
+provisioner: rancher.io/local-path
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pgadmin-pv
+  namespace: postgresql
+spec:
+  storageClassName: pgadmin-storage
+  persistentVolumeReclaimPolicy: Retain
+  capacity:
+    storage: 4Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/storage/k3s/common/pgadmin"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pgadmin-svc
+  namespace: postgresql
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: pgadmin
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pgadmin-stateful-set
+  namespace: postgresql
+  labels:
+    name: pgadmin-stateful-set
+spec:
+  replicas: 1
+  serviceName: pgadmin-stateful-set
+  updateStrategy:
+    rollingUpdate: {}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+        - name: pgadmin
+          image: "dpage/pgadmin4"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: pgadmin
+          env:
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgadmin
+                  key: pgadmin-password
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: pgadmin-data
+      spec:
+        storageClassName: pgadmin-storage
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 4Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgadmin
+  namespace: postgresql
+data:
+  PGADMIN_DEFAULT_EMAIL: zamabandeirabr@gmail.com
+  SCRIPT_NAME: /pgadmin4
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pgadmin
+  namespace: postgresql
+  labels:
+    app: pgadmin
+type: Opaque
+data:
+  pgadmin-password: a2lzcGhw
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pgadminroute
   namespace: postgresql
 spec:
   entryPoints:
     - web
   routes:
-    match: HostSNI(`*`)
-    services:
-      - name: postgresql-svc
-        port: 5432
+    - match: PathPrefix(`/pgadmin4`)
+      kind: Rule
+      services:
+        - name: pgadmin-svc
+          port: 80
