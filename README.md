@@ -121,3 +121,5 @@ https://community.traefik.io/t/ingressroutetcp-not-possible-anymore/8472
 https://community.traefik.io/t/ingressroutetcp-in-kubernetes-for-headless-service/13726/2
 
 https://community.traefik.io/t/tcp-on-kubernetes/1528/21
+
+https://www.kisphp.com/postgres/run-postgres11-and-pgadmin4-in-kubernetes-for-testing
