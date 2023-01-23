@@ -110,6 +110,8 @@ https://www.ivankrizsan.se/2020/10/31/hot-ingress-in-the-k3s-cluster/
 
 https://www.rancher.co.jp/docs/k3s/latest/en/running/
 
+https://www.suse.com/c/rancher_blog/introduction-to-k3s/
+
 ### Postgresql
 
 https://www.techtalk7.com/postgresql-storage-on-k3s/
